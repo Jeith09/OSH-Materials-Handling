@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Occupational Safety — Topic 2: Materials Handling & Storage</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--maroon:#7B1C2E;--maroon-dark:#5A1320;--maroon-light:#9E2438;--gold:#C89B3C;--gold-light:#E0B85A;--gold-pale:#F5E6C0;--cream:#FDF8F0;--white:#FFFFFF;--g100:#F4F1EC;--g200:#E8E3DA;--g400:#ADA79B;--g600:#6B6459;--g800:#2E2A24;--ok:#2E7D4F;--ok-l:#EBF5EF;--err:#8B1A1A;--err-l:#FCEAEA;--r:12px;--rs:8px;--sh:0 2px 16px rgba(123,28,46,.08);--shm:0 4px 24px rgba(123,28,46,.12)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--g800);min-height:100vh;font-size:15px;line-height:1.7}
+#ob{position:fixed;inset:0;background:var(--maroon);display:flex;align-items:center;justify-content:center;z-index:1000;padding:24px}
+.ob-card{background:#fff;border-radius:20px;padding:48px 40px;max-width:440px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.3)}
+.ob-badge{display:inline-block;background:var(--gold-pale);color:var(--maroon);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:20px}
+.ob-title{font-family:'DM Serif Display',serif;font-size:26px;color:var(--maroon);margin-bottom:8px}
+.ob-sub{font-size:14px;color:var(--g600);margin-bottom:28px}
+.ob-inp{width:100%;padding:14px 18px;border:1.5px solid var(--g200);border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--g800);background:var(--cream);transition:border-color .2s;margin-bottom:16px;outline:none}
+.ob-inp:focus{border-color:var(--maroon)}
+.ob-btn{width:100%;padding:15px;background:var(--maroon);color:#fff;border:none;border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s}
+.ob-btn:hover{background:var(--maroon-dark)}
+#app{display:none}
+#app.visible{display:block}
+header{background:var(--maroon);padding:0 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.hdr{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
+.hdr-title{font-family:'DM Serif Display',serif;font-size:17px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr-user{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);padding:6px 12px;border-radius:20px;font-size:13px;color:var(--gold-light);white-space:nowrap;flex-shrink:0}
+.hdr-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;flex-shrink:0}
+.nav-wrap{background:#fff;border-bottom:1px solid var(--g200);position:sticky;top:60px;z-index:90}
+.nav-inner{max-width:960px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-tab{flex-shrink:0;padding:14px 18px;font-size:13px;font-weight:500;color:var(--g600);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:'DM Sans',sans-serif}
+.nav-tab:hover{color:var(--maroon)}
+.nav-tab.active{color:var(--maroon);border-bottom-color:var(--maroon);font-weight:600}
+.nav-tab .ck{display:inline-block;width:8px;height:8px;background:var(--gold);border-radius:50%;margin-left:6px;opacity:0;transition:opacity .3s}
+.nav-tab.done .ck{opacity:1}
+.sec{display:none;padding:32px 24px 80px;max-width:960px;margin:0 auto}
+.sec.active{display:block}
+.sec-hd{margin-bottom:24px}
+.sec-hd h1{font-family:'DM Serif Display',serif;font-size:26px;color:var(--maroon);margin-bottom:4px}
+.sec-hd p{font-size:14px;color:var(--g600)}
+.gold-bar{height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold));border-radius:2px;margin-bottom:24px}
+/* READING */
+.rprog{display:flex;align-items:center;gap:12px;background:var(--gold-pale);border-radius:var(--r);padding:16px 20px;margin-bottom:24px}
+.rprog-bar{flex:1;height:6px;background:var(--g200);border-radius:3px;overflow:hidden}
+.rprog-fill{height:100%;background:linear-gradient(90deg,var(--maroon),var(--gold));border-radius:3px;transition:width .4s ease;width:0%}
+.rprog-txt{font-size:12px;font-weight:600;color:var(--maroon);white-space:nowrap}
+.rblock{background:#fff;border-radius:var(--r);margin-bottom:16px;overflow:hidden;box-shadow:var(--sh);cursor:pointer;transition:box-shadow .2s}
+.rblock:hover{box-shadow:var(--shm)}
+.rblock-hdr{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;gap:12px}
+.rblock-num{width:30px;height:30px;flex-shrink:0;background:var(--maroon);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
+.rblock-ttl{flex:1;font-weight:600;font-size:15px;color:var(--maroon)}
+.rblock-arr{color:var(--g400);font-size:20px;transition:transform .3s}
+.rblock.open .rblock-arr{transform:rotate(180deg)}
+.rblock-body{display:none;padding:0 22px 22px;color:var(--g800);font-size:14.5px;line-height:1.8}
+.rblock.open .rblock-body{display:block}
+.rblock-body h3{font-family:'DM Serif Display',serif;font-size:17px;color:var(--maroon-dark);margin:18px 0 8px}
+.rblock-body ul{padding-left:20px;margin:6px 0 12px}
+.rblock-body li{margin-bottom:4px}
+.rblock-body p{margin-bottom:10px}
+.rblock-body strong{color:var(--maroon-dark);font-weight:600}
+.hi{background:var(--gold-pale);border-left:4px solid var(--gold);border-radius:0 var(--rs) var(--rs) 0;padding:14px 18px;margin:14px 0;font-size:14px}
+.stat{background:var(--maroon);color:#fff;border-radius:var(--r);padding:18px 22px;margin:14px 0}
+.stat-n{font-family:'DM Serif Display',serif;font-size:38px;color:var(--gold-light)}
+.stat-l{font-size:13px;opacity:.85}
+.done-btn{display:block;margin:18px auto 0;padding:9px 22px;background:var(--maroon);color:#fff;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s}
+.done-btn:hover{background:var(--maroon-dark)}
+.done-btn.marked{background:var(--ok)}
+/* SORT GAME */
+.sort-intro{background:#fff;border-radius:var(--r);padding:28px;box-shadow:var(--sh);margin-bottom:20px;text-align:center}
+.sort-intro h2{font-family:'DM Serif Display',serif;font-size:22px;color:var(--maroon);margin-bottom:8px}
+.sort-intro p{font-size:14px;color:var(--g600);margin-bottom:20px}
+.sort-board{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:560px){.sort-board{grid-template-columns:1fr}}
+.sort-zone{background:#fff;border-radius:var(--r);padding:16px;box-shadow:var(--sh);min-height:180px}
+.sort-zone-title{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;border-radius:var(--rs);margin-bottom:12px;text-align:center}
+.sort-zone.manual .sort-zone-title{background:rgba(123,28,46,.1);color:var(--maroon)}
+.sort-zone.mechanical .sort-zone-title{background:rgba(200,155,60,.15);color:#7A5A10}
+.sort-cards{min-height:80px;border:2px dashed var(--g200);border-radius:var(--rs);padding:10px;display:flex;flex-wrap:wrap;gap:8px;transition:border-color .3s}
+.sort-cards.drag-over{border-color:var(--maroon);background:var(--gold-pale)}
+.sort-item{background:var(--g100);border:1.5px solid var(--g200);border-radius:var(--rs);padding:8px 14px;font-size:13px;cursor:grab;user-select:none;transition:all .2s;touch-action:none}
+.sort-item:hover{border-color:var(--maroon);background:var(--gold-pale)}
+.sort-item.correct{background:var(--ok-l);border-color:var(--ok);color:var(--ok)}
+.sort-item.wrong{background:var(--err-l);border-color:var(--err);color:var(--err)}
+.sort-pool{background:#fff;border-radius:var(--r);padding:16px;box-shadow:var(--sh);margin-bottom:16px}
+.sort-pool-title{font-size:13px;font-weight:600;color:var(--g600);margin-bottom:12px}
+.sort-pool-cards{display:flex;flex-wrap:wrap;gap:8px;min-height:48px}
+.game-btn{padding:12px 28px;background:var(--maroon);color:#fff;border:none;border-radius:24px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background .2s;margin-right:8px}
+.game-btn:hover{background:var(--maroon-dark)}
+.game-btn.gold{background:var(--gold);color:var(--maroon-dark)}
+.game-btn.gold:hover{background:var(--gold-light)}
+.game-result-bar{background:var(--g100);border-radius:var(--r);padding:14px 18px;margin-top:12px;font-size:14px;display:none}
+/* SCENARIO QUIZ */
+.scen-card{background:#fff;border-radius:var(--r);box-shadow:var(--sh);margin-bottom:16px;overflow:hidden}
+.scen-top{background:var(--maroon);padding:16px 22px}
+.scen-badge{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px}
+.scen-q{font-size:16px;color:#fff;line-height:1.5;font-weight:500}
+.scen-body{padding:20px 22px}
+.scen-opts{display:flex;flex-direction:column;gap:10px}
+.scen-opt{padding:13px 16px;border:1.5px solid var(--g200);border-radius:var(--rs);background:var(--cream);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--g800);text-align:left;transition:all .15s;line-height:1.5}
+.scen-opt:hover:not(:disabled){border-color:var(--maroon);background:var(--gold-pale)}
+.scen-opt.correct{border-color:var(--ok);background:var(--ok-l);color:var(--ok);font-weight:600}
+.scen-opt.wrong{border-color:var(--err);background:var(--err-l);color:var(--err)}
+.scen-fb{font-size:13px;margin-top:12px;min-height:20px;padding:10px 14px;border-radius:var(--rs)}
+.scen-fb.ok{background:var(--ok-l);color:var(--ok);font-weight:600}
+.scen-fb.no{background:var(--err-l);color:var(--err)}
+/* FLASHCARDS */
+.fc-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.fc-ctr{font-size:13px;color:var(--g600)}
+.fc-nav{display:flex;gap:8px}
+.fc-nav button{padding:8px 18px;border-radius:20px;border:1.5px solid var(--maroon);background:#fff;color:var(--maroon);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.fc-nav button:hover{background:var(--maroon);color:#fff}
+.fc-nav button:disabled{opacity:.35;cursor:not-allowed;pointer-events:none}
+.fc-scene{perspective:1000px;height:220px;cursor:pointer;margin-bottom:12px}
+.fc-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.fc-inner.flipped{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 28px;text-align:center}
+.fc-front{background:var(--maroon);box-shadow:var(--shm)}
+.fc-back{background:#fff;border:2px solid var(--maroon);box-shadow:var(--shm);transform:rotateY(180deg)}
+.fc-fl{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-light);margin-bottom:12px}
+.fc-ft{font-family:'DM Serif Display',serif;font-size:20px;color:#fff;line-height:1.3}
+.fc-bl{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--maroon);margin-bottom:12px}
+.fc-bd{font-size:14.5px;color:var(--g800);line-height:1.6}
+.fc-hint{text-align:center;font-size:12px;color:var(--g400)}
+/* QUIZ */
+.qintro{background:#fff;border-radius:var(--r);padding:28px;text-align:center;box-shadow:var(--sh);margin-bottom:20px}
+.qintro h2{font-family:'DM Serif Display',serif;font-size:24px;color:var(--maroon);margin-bottom:8px}
+.qintro p{color:var(--g600);margin-bottom:20px;font-size:14px}
+.start-btn{padding:13px 36px;background:var(--maroon);color:#fff;border:none;border-radius:28px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s}
+.start-btn:hover{background:var(--maroon-dark)}
+#qarea{display:none}
+.qtop{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.qnum{font-size:13px;color:var(--g600)}
+.qscore{font-size:13px;font-weight:600;color:var(--maroon);background:var(--gold-pale);padding:4px 14px;border-radius:20px}
+.qbar{height:4px;background:var(--g200);border-radius:2px;overflow:hidden;margin-bottom:20px}
+.qbar-fill{height:100%;background:var(--maroon);border-radius:2px;transition:width .3s}
+.qbox{background:#fff;border-radius:var(--r);padding:24px;box-shadow:var(--sh);margin-bottom:14px}
+.qq{font-size:16px;font-weight:500;line-height:1.6;color:var(--g800);margin-bottom:18px}
+.qopts{display:flex;flex-direction:column;gap:10px}
+.qopt{padding:13px 16px;border:1.5px solid var(--g200);border-radius:var(--rs);background:var(--cream);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--g800);text-align:left;transition:all .15s;line-height:1.5}
+.qopt:hover:not(:disabled){border-color:var(--maroon);background:var(--gold-pale)}
+.qopt.correct{border-color:var(--ok);background:var(--ok-l);color:var(--ok);font-weight:600}
+.qopt.wrong{border-color:var(--err);background:var(--err-l);color:var(--err);text-decoration:line-through}
+.qopt:disabled{cursor:default}
+.qfb{font-size:13.5px;min-height:20px;color:var(--g600);margin-bottom:14px;padding:0 2px}
+.qfb.ok{color:var(--ok);font-weight:600}
+.qfb.no{color:var(--err)}
+.qnext{padding:11px 28px;background:var(--maroon);color:#fff;border:none;border-radius:22px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:none;transition:background .2s}
+.qnext:hover{background:var(--maroon-dark)}
+.qnext.vis{display:inline-block}
+/* RESULT */
+#res-ph{background:#fff;border-radius:var(--r);padding:36px;text-align:center;box-shadow:var(--sh)}
+#res-card{display:none}
+.res-wrap{background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--shm)}
+.res-hdr{background:var(--maroon);padding:32px;text-align:center}
+.res-trophy{font-size:44px;margin-bottom:10px}
+.res-hdr h2{font-family:'DM Serif Display',serif;font-size:24px;color:#fff;margin-bottom:4px}
+.res-hdr p{font-size:13px;color:rgba(255,255,255,.75)}
+.res-scores{display:flex;gap:1px;background:var(--g200)}
+.res-sc{flex:1;background:#fff;padding:18px 12px;text-align:center}
+.rsc-v{font-family:'DM Serif Display',serif;font-size:28px;color:var(--maroon)}
+.rsc-l{font-size:12px;color:var(--g600);margin-top:2px}
+.res-body{padding:24px 28px}
+.res-nm{display:flex;align-items:center;gap:12px;background:var(--gold-pale);border-radius:var(--rs);padding:14px 18px;margin-bottom:16px}
+.res-nm-l{font-size:12px;color:var(--g600)}
+.res-nm-v{font-size:17px;font-weight:700;color:var(--maroon)}
+.res-topic{font-size:13px;color:var(--g600);margin-bottom:3px}
+.res-date{font-size:13px;color:var(--g600);margin-bottom:20px}
+.rb-ttl{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--g400);margin-bottom:10px}
+.rb-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--g100);font-size:13.5px}
+.rb-row:last-child{border-bottom:none}
+.rb-dot{width:8px;height:8px;border-radius:50%;margin-right:8px;flex-shrink:0}
+.rb-l{display:flex;align-items:center;color:var(--g800)}
+.rb-tag{font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px}
+.rb-tag.yes{background:var(--ok-l);color:var(--ok)}
+.rb-tag.no{background:var(--g100);color:var(--g400)}
+.res-note{text-align:center;font-size:12px;color:var(--g400);margin-top:14px;padding-top:14px;border-top:1px dashed var(--g200)}
+.res-acts{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+.ra{flex:1;padding:12px;border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;text-align:center;min-width:110px;transition:all .15s}
+.ra-p{background:var(--maroon);color:#fff;border:none}
+.ra-p:hover{background:var(--maroon-dark)}
+.ra-s{background:#fff;color:var(--maroon);border:2px solid var(--maroon)}
+.ra-s:hover{background:var(--gold-pale)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.sec.active>*{animation:fadeUp .3s ease both}
+.sec.active>*:nth-child(2){animation-delay:.05s}
+.sec.active>*:nth-child(3){animation-delay:.1s}
+@media(max-width:600px){.sec{padding:20px 14px 64px}.rblock-body{padding:0 14px 18px}.res-body{padding:18px}}
+</style>
+</head>
+<body>
+<div id="ob">
+  <div class="ob-card">
+    <div class="ob-badge">Study Module · Topic 2</div>
+    <h1 class="ob-title">Materials Handling<br>&amp; Storage</h1>
+    <p class="ob-sub">Occupational Safety &amp; Health<br>Enter your name to begin.</p>
+    <input class="ob-inp" id="nameIn" type="text" placeholder="Your full name" autocomplete="name"/>
+    <button class="ob-btn" onclick="go()">Start Learning →</button>
+  </div>
+</div>
+<div id="app">
+  <header>
+    <div class="hdr">
+      <span class="hdr-title">Topic 2 · Materials Handling &amp; Storage</span>
+      <span class="hdr-user"><span class="hdr-dot"></span><span id="hName">Learner</span></span>
+    </div>
+  </header>
+  <nav class="nav-wrap">
+    <div class="nav-inner">
+      <button class="nav-tab active" onclick="tab('reading',this)" data-tab="reading">📖 Read<span class="ck"></span></button>
+      <button class="nav-tab" onclick="tab('sort',this)" data-tab="sort">🎮 Sort Game<span class="ck"></span></button>
+      <button class="nav-tab" onclick="tab('flash',this)" data-tab="flash">🃏 Flashcards<span class="ck"></span></button>
+      <button class="nav-tab" onclick="tab('scenario',this)" data-tab="scenario">🧠 Scenarios<span class="ck"></span></button>
+      <button class="nav-tab" onclick="tab('quiz',this)" data-tab="quiz">🎯 Quiz<span class="ck"></span></button>
+      <button class="nav-tab" onclick="tab('result',this)" data-tab="result">🏅 Progress<span class="ck"></span></button>
+    </div>
+  </nav>
+
+  <!-- READING -->
+  <section class="sec active" id="sec-reading">
+    <div class="sec-hd"><h1>Topic Reading</h1><p>Tap each section to expand. Mark done when finished.</p></div>
+    <div class="gold-bar"></div>
+    <div class="rprog"><span style="font-size:13px;font-weight:600;color:var(--maroon)">Reading progress</span><div class="rprog-bar"><div class="rprog-fill" id="rFill"></div></div><span class="rprog-txt" id="rTxt">0 / 5</span></div>
+
+    <div class="rblock" onclick="tog(this)">
+      <div class="rblock-hdr"><div class="rblock-num">1</div><div class="rblock-ttl">What is Materials Handling?</div><div class="rblock-arr">▾</div></div>
+      <div class="rblock-body">
+        <p><strong>Materials handling and storage</strong> is a technique that includes lifting, placing, storing, or movement of materials through physical strength or appropriate handling equipment.</p>
+        <p>It has two general classifications:</p>
+        <ul><li><strong>Manual Materials Handling (MMH)</strong> — moving things by lifting, lowering, pushing, pulling, carrying, holding, or restraining using physical strength</li><li><strong>Mechanical Materials Handling</strong> — using rigid, manually or mechanically-powered equipment mainly for bulky and heavy items</li></ul>
+        <div class="hi">⚠️ MMH is the most common cause of occupational fatigue, <strong>low back pain</strong>, and lower back injuries. It can lead to strains, sprains, wounds, fractures, and hernias.</div>
+        <button class="done-btn" onclick="done(event,this,0)">Mark as Done ✓</button>
+      </div>
+    </div>
+
+    <div class="rblock" onclick="tog(this)">
+      <div class="rblock-hdr"><div class="rblock-num">2</div><div class="rblock-ttl">What Makes MMH Hazardous?</div><div class="rblock-arr">▾</div></div>
+      <div class="rblock-body">
+        <p>The hazard level depends on <strong>what</strong> you're handling, <strong>what</strong> the task is, and <strong>what</strong> conditions are at the workplace.</p>
+        <h3>Hazardous Load Characteristics</h3>
+        <ul><li>Too heavy, too high or too low for a safe lift</li><li>Too big, wet, slippery, or has sharp edges</li><li>Unstable — center of gravity can shift (e.g., a partially filled drum)</li></ul>
+        <h3>Hazardous Task Factors</h3>
+        <ul><li>Poor lifting technique — back bent, twisting, reaching too far</li><li>Moving material over long distances without rest</li><li>Combination of tasks: lifting + carrying + lowering</li></ul>
+        <h3>Hazardous Work Conditions</h3>
+        <ul><li>Uneven, wet, slippery, or icy surfaces</li><li>Differences in floor levels</li><li>Poor housekeeping, inadequate lighting</li><li>Cold, hot, humid, or windy environment</li><li>Fast pace of work or restricted movement</li></ul>
+        <button class="done-btn" onclick="done(event,this,1)">Mark as Done ✓</button>
+      </div>
+    </div>
+
+    <div class="rblock" onclick="tog(this)">
+      <div class="rblock-hdr"><div class="rblock-num">3</div><div class="rblock-ttl">Proper Lifting Techniques</div><div class="rblock-arr">▾</div></div>
+      <div class="rblock-body">
+        <h3>Before You Lift</h3>
+        <ul><li>Check if mechanical aids (hoists, dollies, wheelbarrows) are available</li><li>Get help with heavy or awkward loads</li><li>Assess the weight; make sure the load is "free" to move</li><li>Clear the path — check for grease, water, litter, debris</li></ul>
+        <h3>General Lifting Tips</h3>
+        <ul><li>Stand close to the load and face the direction of movement</li><li>Use a wide stance for balance</li><li>Keep arms straight, look forward, keep back straight</li><li>Tighten abdominal muscles; tuck chin into chest</li><li><strong>Use leg muscles</strong> — NOT your back</li><li>Lift the load as close to the body as possible</li><li>Lift smoothly — <strong>avoid twisting and side bending</strong></li></ul>
+        <div class="stat" style="text-align:center"><div style="font-size:40px;margin-bottom:8px">🦵 STRONG &nbsp;&nbsp;&nbsp; 🔙 PROTECT IT</div><div class="stat-l">Use your <strong>legs</strong> to lift. Your back is weak under load — protect it always.</div></div>
+        <h3>Protective Clothing</h3>
+        <p><strong>DO wear:</strong> lightweight, tear-resistant clothing; safety boots with toe caps; protective gloves</p>
+        <p><strong>DO NOT wear:</strong> aprons with loose flaps, heavy-duty mitts, clothing with exposed zippers</p>
+        <button class="done-btn" onclick="done(event,this,2)">Mark as Done ✓</button>
+      </div>
+    </div>
+
+    <div class="rblock" onclick="tog(this)">
+      <div class="rblock-hdr"><div class="rblock-num">4</div><div class="rblock-ttl">Mechanical Handling Equipment</div><div class="rblock-arr">▾</div></div>
+      <div class="rblock-body">
+        <p>Mechanical equipment reduces physical effort and makes materials handling easier and safer. Two types: <strong>manually-powered</strong> and <strong>mechanically-powered</strong>.</p>
+        <h3>Manually Powered Equipment</h3>
+        <ul>
+          <li><strong>Hand truck</strong> — move bulky objects</li>
+          <li><strong>Platform truck</strong> — heavy, irregularly shaped objects</li>
+          <li><strong>Shelf truck</strong> — move a variety of objects</li>
+          <li><strong>Semi-live skid</strong> — temporary storage</li>
+          <li><strong>Stair climbing truck</strong> — moving loads on stairs</li>
+          <li><strong>Pump truck</strong> — move palletized materials</li>
+          <li><strong>Dump truck</strong> — move and dump waste materials</li>
+          <li><strong>Drum dollies</strong> — move and empty drums</li>
+          <li><strong>"A" frame hand truck</strong> — handle sheet materials</li>
+        </ul>
+        <h3>Mechanically Powered Equipment</h3>
+        <ul><li><strong>Lifting equipment:</strong> hoists, cranes</li><li><strong>Transport equipment:</strong> forklifts, trailers, conveyors</li></ul>
+        <div class="hi">🔑 <strong>Rule:</strong> Never operate equipment without proper training. Operators must be certified and authorized.</div>
+        <button class="done-btn" onclick="done(event,this,3)">Mark as Done ✓</button>
+      </div>
+    </div>
+
+    <div class="rblock" onclick="tog(this)">
+      <div class="rblock-hdr"><div class="rblock-num">5</div><div class="rblock-ttl">Materials Storage Rules</div><div class="rblock-arr">▾</div></div>
+      <div class="rblock-body">
+        <h3>Storage Room Requirements</h3>
+        <ul><li>At least <strong>two exits</strong></li><li>Properly illuminated and ventilated</li><li>Restricted access</li></ul>
+        <h3>General Storage Rules</h3>
+        <ul><li>Store materials neatly and orderly in limited amounts</li><li>Frequently used materials placed <strong>closer</strong> to you</li><li>Store heavy and frequently used items at <strong>waist height</strong></li><li>Do <strong>NOT</strong> store at floor level</li><li>Never obstruct: alarm boxes, sprinkler controls, first aid equipment, fuse boxes, aisles, exits</li></ul>
+        <h3>6 Questions Before Moving Material</h3>
+        <ul><li><strong>What</strong> will be moved?</li><li><strong>Where</strong> to move it?</li><li><strong>How often</strong> will it be moved?</li><li><strong>How many</strong> will be moved?</li><li><strong>How far</strong> will it be moved?</li><li><strong>How</strong> will it be moved (manual or mechanical)?</li></ul>
+        <div class="hi">📌 <strong>Key reminder:</strong> Obstructed passageways can cause disaster during emergency evacuations. Always keep aisles and exits clear!</div>
+        <button class="done-btn" onclick="done(event,this,4)">Mark as Done ✓</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SORT GAME -->
+  <section class="sec" id="sec-sort">
+    <div class="sec-hd"><h1>Sort It Out!</h1><p>Drag each equipment into the correct category: Manual or Mechanical.</p></div>
+    <div class="gold-bar"></div>
+    <div class="sort-pool">
+      <div class="sort-pool-title">🎯 Equipment to sort — drag each one below:</div>
+      <div class="sort-pool-cards" id="poolCards"></div>
+    </div>
+    <div class="sort-board">
+      <div class="sort-zone manual">
+        <div class="sort-zone-title">💪 Manual Handling</div>
+        <div class="sort-cards" id="zone-manual" ondragover="allowDrop(event)" ondrop="dropItem(event,'manual')" ontouchend="touchDrop(event,'manual')"></div>
+      </div>
+      <div class="sort-zone mechanical">
+        <div class="sort-zone-title">⚙️ Mechanical Handling</div>
+        <div class="sort-cards" id="zone-mechanical" ondragover="allowDrop(event)" ondrop="dropItem(event,'mechanical')" ontouchend="touchDrop(event,'mechanical')"></div>
+      </div>
+    </div>
+    <button class="game-btn" onclick="checkSort()">Check Answers ✓</button>
+    <button class="game-btn gold" onclick="resetSort()">Reset ↺</button>
+    <div class="game-result-bar" id="sortResult"></div>
+  </section>
+
+  <!-- FLASHCARDS -->
+  <section class="sec" id="sec-flash">
+    <div class="sec-hd"><h1>Flashcards</h1><p>Tap the card to flip it. Use arrows or keyboard to navigate.</p></div>
+    <div class="gold-bar"></div>
+    <div class="fc-meta">
+      <span class="fc-ctr" id="fcCtr">Card 1 of 10</span>
+      <div class="fc-nav">
+        <button id="fcPrev" onclick="fcMove(-1)" disabled>← Prev</button>
+        <button id="fcNext" onclick="fcMove(1)">Next →</button>
+      </div>
+    </div>
+    <div class="fc-scene" onclick="fcFlip()">
+      <div class="fc-inner" id="fcInner">
+        <div class="fc-face fc-front"><div class="fc-fl">Term / Concept</div><div class="fc-ft" id="fcT"></div></div>
+        <div class="fc-face fc-back"><div class="fc-bl">Definition</div><div class="fc-bd" id="fcD"></div></div>
+      </div>
+    </div>
+    <p class="fc-hint">Tap to flip · Arrow keys to navigate · Space to flip</p>
+  </section>
+
+  <!-- SCENARIO QUIZ -->
+  <section class="sec" id="sec-scenario">
+    <div class="sec-hd"><h1>Scenario Challenges</h1><p>Read each workplace situation and choose the safest action.</p></div>
+    <div class="gold-bar"></div>
+    <div id="scenCards"></div>
+    <div style="text-align:center;margin-top:8px">
+      <div id="scenScore" style="font-size:14px;color:var(--g600)"></div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="sec" id="sec-quiz">
+    <div class="qintro" id="qintro">
+      <h2>Practice Quiz</h2>
+      <p>15 multiple-choice questions on materials handling.<br>Answers revealed after each question.</p>
+      <button class="start-btn" onclick="startQ()">Begin Quiz →</button>
+    </div>
+    <div id="qarea">
+      <div class="qtop"><span class="qnum" id="qNum">Q 1 of 15</span><span class="qscore" id="qSc">Score: 0</span></div>
+      <div class="qbar"><div class="qbar-fill" id="qFill" style="width:0%"></div></div>
+      <div class="qbox"><div class="qq" id="qQ"></div><div class="qopts" id="qOpts"></div></div>
+      <div class="qfb" id="qFb"></div>
+      <button class="qnext" id="qNext" onclick="nextQ()">Next →</button>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="sec" id="sec-result">
+    <div class="sec-hd"><h1>My Progress</h1><p>Screenshot your completion card to save your progress.</p></div>
+    <div class="gold-bar"></div>
+    <div id="res-ph"><div style="font-size:40px;margin-bottom:12px">📋</div><p style="color:var(--g600);font-size:14px">Complete the quiz to unlock your progress card.</p></div>
+    <div id="res-card">
+      <div class="res-wrap">
+        <div class="res-hdr"><div class="res-trophy" id="rTrophy">🏅</div><h2>Completion Record</h2><p>Occupational Safety &amp; Health — Topic 2</p></div>
+        <div class="res-scores"><div class="res-sc"><div class="rsc-v" id="rQsc">—</div><div class="rsc-l">Quiz Score</div></div><div class="res-sc"><div class="rsc-v" id="rSsc">—</div><div class="rsc-l">Scenarios</div></div><div class="res-sc"><div class="rsc-v" id="rRsc">—</div><div class="rsc-l">Sections Read</div></div></div>
+        <div class="res-body">
+          <div class="res-nm"><div><div class="res-nm-l">Learner</div><div class="res-nm-v" id="rName">—</div></div></div>
+          <div class="res-topic">Topic: Materials Handling &amp; Storage</div>
+          <div class="res-date" id="rDate">Date: —</div>
+          <div class="rb-ttl">Activity Breakdown</div>
+          <div class="rb-row"><div class="rb-l"><div class="rb-dot" style="background:var(--maroon)"></div>Reading (5 sections)</div><span class="rb-tag" id="rbR">—</span></div>
+          <div class="rb-row"><div class="rb-l"><div class="rb-dot" style="background:var(--gold)"></div>Sort Game</div><span class="rb-tag" id="rbS">—</span></div>
+          <div class="rb-row"><div class="rb-l"><div class="rb-dot" style="background:var(--g400)"></div>Flashcards (10 cards)</div><span class="rb-tag" id="rbF">—</span></div>
+          <div class="rb-row"><div class="rb-l"><div class="rb-dot" style="background:var(--ok)"></div>Scenarios (5 items)</div><span class="rb-tag" id="rbSc">—</span></div>
+          <div class="rb-row"><div class="rb-l"><div class="rb-dot" style="background:var(--maroon-light)"></div>Practice Quiz (15 items)</div><span class="rb-tag" id="rbQ">—</span></div>
+          <div class="res-note">📸 Screenshot this card to save your progress</div>
+        </div>
+      </div>
+      <div class="res-acts"><button class="ra ra-p" onclick="retake()">Retake Quiz</button><button class="ra ra-s" onclick="showRes()">Refresh Card</button></div>
+    </div>
+  </section>
+</div>
+
+<script>
+// STATE
+let uName='',readDone=[false,false,false,false,false],fcIdx=0,fcFlipped=false,fcSeen=false,sortDone=false,scenDone=false,qDone=false,qScore=0,qIdx=0,qAns=false,scenScore=0;
+
+// SORT DATA
+const sortItems=[
+  {id:'s1',label:'Hand Truck',cat:'manual'},
+  {id:'s2',label:'Platform Truck',cat:'manual'},
+  {id:'s3',label:'Pump Truck',cat:'manual'},
+  {id:'s4',label:'Drum Dollies',cat:'manual'},
+  {id:'s5',label:'Stair Climbing Truck',cat:'manual'},
+  {id:'s6',label:'Forklift',cat:'mechanical'},
+  {id:'s7',label:'Crane / Hoist',cat:'mechanical'},
+  {id:'s8',label:'Conveyor Belt',cat:'mechanical'},
+  {id:'s9',label:'Dump Truck (powered)',cat:'mechanical'},
+  {id:'s10',label:'\"A\" Frame Hand Truck',cat:'manual'},
+];
+
+// FLASHCARD DATA
+const fcs=[
+  {t:'Manual Materials Handling (MMH)',d:'Moving or handling things by lifting, lowering, pushing, pulling, carrying, holding, or restraining using physical strength. The most common cause of occupational fatigue and back injuries.'},
+  {t:'Mechanical Materials Handling',d:'Use of rigid, manually or mechanically-powered equipment mainly for handling bulky and heavy items. Reduces physical effort and makes handling safer.'},
+  {t:'Three factors that determine MMH hazard level',d:'1. What you are handling (load characteristics), 2. What the task is (lifting technique, distance, frequency), 3. What the conditions are at the workplace (surfaces, lighting, environment).'},
+  {t:'Correct lifting principle',d:'Use the LEGS, not the back. Stand close, wide stance, keep back straight, lift smoothly, keep load close to the body, avoid twisting or side bending.'},
+  {t:'Pump Truck',d:'Used to move materials stored on pallets. A manually-powered equipment with a hydraulic lifting mechanism.'},
+  {t:'Stair Climbing Truck',d:'A manually-powered equipment used specifically for moving loads on stairs or uneven terrain.'},
+  {t:'Storage room requirements',d:'Must have at least two exits, be properly illuminated and ventilated, and have restricted access.'},
+  {t:'6 Questions for materials handling problems',d:'What will be moved? Where? How often? How many? How far? How will they be moved (manual or mechanical)?'},
+  {t:'Accessories for securing loads',d:'Ropes, chains, and steel/plastic straps are used to secure loads and prevent sliding or falling from equipment.'},
+  {t:'Why injuries from pushing/pulling are hard to analyze',d:'They are not always recorded specifically — they fall into different injury categories (back strain, slips, finger injuries) making them difficult to track as a group.'},
+];
+
+// SCENARIO DATA
+const scens=[
+  {q:'You need to move a heavy drum across the warehouse floor. What should you do?',opts:['Lift and carry it alone using your back','Use a drum dolly and mechanical aid; get help if needed','Ask a colleague to help you carry it manually','Leave it and do it later when you feel stronger'],ans:1,exp:'Always use mechanical aids (drum dolly) for heavy drums. Never attempt to lift a full drum alone — use two-person techniques or cranes.'},
+  {q:'The floor in the storage area is wet and slippery. A coworker is about to carry boxes across it. What is the safest action?',opts:['Tell them to walk carefully and carry less','Clean and dry the floor first, or post warning signs, before any lifting activity','Let them continue — slipping is just part of the job','Have them run quickly across to reduce time on the wet floor'],ans:1,exp:'Slippery floors are a major MMH hazard. The area must be cleaned/dried and warning signs posted BEFORE anyone carries loads across it.'},
+  {q:'You are about to lift a large cardboard box when you realize you cannot see your feet over the load. What should you do?',opts:['Lift anyway and walk slowly','Lean the box to the side to peek around it','Split the load into smaller parts or use a hand truck','Ask someone to walk behind you and guide you'],ans:2,exp:'A load too big to see your feet is a hazard. Split the load or use a hand truck. Being unable to see where your feet are places is a safety risk.'},
+  {q:'A worker is about to operate a forklift to move materials, but was never trained on forklifts. What should happen?',opts:['Let them try — it looks simple enough','Supervise them while they operate it','Do not allow operation — only trained and certified operators may use forklifts','Let them read the manual first and then operate it'],ans:2,exp:'Mechanically-powered equipment must only be operated by trained, certified, and authorized personnel. No exceptions.'},
+  {q:'Materials are stacked blocking the emergency exit. A supervisor says it will only be for an hour. What is correct?',opts:['It is fine since it is temporary','Report it immediately — exits must never be obstructed at any time','Wait until the hour is up and then clear it','Block one exit but make sure the other is clear'],ans:1,exp:'Emergency exits must NEVER be blocked — not even temporarily. This violates OSH standards and can cause disaster during evacuations.'},
+];
+
+// QUIZ DATA (15 questions)
+const qData=[
+  {q:'What are the two general classifications of materials handling?',opts:['Physical and automated','Manual and mechanical','Heavy and light','Simple and complex'],ans:1},
+  {q:'MMH is the most common cause of which occupational injury?',opts:['Eye strain','Low back pain and injuries','Hearing loss','Skin conditions'],ans:1},
+  {q:'Which of these makes a load hazardous to handle manually?',opts:['Stable center of gravity','Proper weight distribution','Unstable load that can shift its center of gravity','Light and compact shape'],ans:2},
+  {q:'Which factor makes the TASK hazardous during MMH?',opts:['Proper rest breaks taken','Lifting with back bent while twisting','Using appropriate handling equipment','Stable surfaces underfoot'],ans:1},
+  {q:'What is the most important principle of safe lifting?',opts:['Use your back muscles for power','Lift as fast as possible to reduce strain time','Use your leg muscles; keep the load close to the body','Twist your body to place the load quickly'],ans:2},
+  {q:'What should you always check BEFORE lifting any load?',opts:['Your mood and energy level','Whether mechanical aids are available','The color of the load','How long the task will take'],ans:1},
+  {q:'What protective clothing should you wear during MMH?',opts:['Aprons and loose coats','Heavy-duty mitts','Lightweight tear-resistant clothing with safety boots and gloves','Clothing with exposed zippers for easy movement'],ans:2},
+  {q:'Which equipment is used to move materials stored on pallets?',opts:['Stair climbing truck','Drum dolly','Pump truck','Shelf truck'],ans:2},
+  {q:'What must a storage room have according to OSH standards?',opts:['At least one exit','At least two exits, proper lighting and ventilation, restricted access','Open access for all workers','No ventilation to prevent dust from spreading'],ans:1},
+  {q:'Heavy and frequently used materials should be stored at:',opts:['Floor level for easy access','Overhead shelves to save floor space','Waist height','Behind locked doors'],ans:2},
+  {q:'Which of these should NEVER be obstructed by stored materials?',opts:['Vending machines','Alarm boxes, sprinkler controls, exits, and first aid equipment','Office desks','Loading docks'],ans:1},
+  {q:'Which manually powered equipment is best for moving loads on stairs?',opts:['Pump truck','Stair climbing truck','Shelf truck','Platform truck'],ans:1},
+  {q:'Why are injuries from pushing and pulling difficult to analyze?',opts:['They are very rare','They fall into different injury categories, making them hard to group and track','They are always minor injuries','Employers hide these statistics'],ans:1},
+  {q:'What is a "semi-live skid" used for?',opts:['Moving palletized materials','Temporary storage','Handling sheet materials','Emptying drums'],ans:1},
+  {q:'Which statement about gender and MMH is correct?',opts:['Women should never be assigned to MMH tasks','Discrimination against women for MMH is not justified — individual strength varies widely','All men can safely handle any MMH load','Older workers should always be excluded from MMH'],ans:1},
+];
+
+// INIT
+function go(){
+  const n=document.getElementById('nameIn').value.trim();
+  if(!n){document.getElementById('nameIn').focus();return}
+  uName=n;
+  document.getElementById('hName').textContent=n;
+  document.getElementById('ob').style.display='none';
+  document.getElementById('app').classList.add('visible');
+  buildSort();buildScen();updateFC();
+}
+document.getElementById('nameIn').addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+
+function tab(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='result')showRes();
+  if(id==='flash')fcSeen=true;
+}
+
+// READING
+function tog(el){el.classList.toggle('open')}
+function done(e,btn,i){
+  e.stopPropagation();readDone[i]=true;btn.textContent='✓ Done!';btn.classList.add('marked');btn.disabled=true;
+  const c=readDone.filter(Boolean).length;
+  document.getElementById('rFill').style.width=(c/5*100)+'%';
+  document.getElementById('rTxt').textContent=c+' / 5';
+  if(c===5)document.querySelector('[data-tab="reading"]').classList.add('done');
+}
+
+// SORT GAME
+let dragId=null,touchItem=null;
+function buildSort(){
+  const pool=document.getElementById('poolCards');
+  pool.innerHTML='';
+  document.getElementById('zone-manual').innerHTML='';
+  document.getElementById('zone-mechanical').innerHTML='';
+  const shuffled=[...sortItems].sort(()=>Math.random()-.5);
+  shuffled.forEach(item=>{
+    const el=document.createElement('div');
+    el.className='sort-item';el.textContent=item.label;el.dataset.id=item.id;el.dataset.cat=item.cat;
+    el.draggable=true;
+    el.addEventListener('dragstart',e=>{dragId=item.id;e.dataTransfer.setData('text/plain',item.id)});
+    el.addEventListener('touchstart',e=>{touchItem=el},{ passive: true });
+    pool.appendChild(el);
+  });
+}
+function allowDrop(e){e.preventDefault();e.currentTarget.classList.add('drag-over')}
+document.addEventListener('dragleave',e=>{if(e.target.classList.contains('sort-cards'))e.target.classList.remove('drag-over')});
+function dropItem(e,cat){
+  e.preventDefault();
+  const zone=document.getElementById('zone-'+cat);
+  zone.classList.remove('drag-over');
+  const id=e.dataTransfer.getData('text/plain');
+  const el=document.querySelector(`[data-id="${id}"]`);
+  if(el)zone.appendChild(el);
+}
+function touchDrop(e,cat){
+  if(!touchItem)return;
+  document.getElementById('zone-'+cat).appendChild(touchItem);
+  touchItem=null;
+}
+function checkSort(){
+  let c=0,t=0;
+  document.querySelectorAll('.sort-item').forEach(el=>{
+    t++;
+    if(el.dataset.cat===el.closest('.sort-cards')?.closest('.sort-zone')?.classList[1]){
+      el.classList.add('correct');el.classList.remove('wrong');c++;
+    } else {
+      el.classList.add('wrong');el.classList.remove('correct');
+    }
+  });
+  const bar=document.getElementById('sortResult');
+  bar.style.display='block';
+  bar.innerHTML=`<strong>${c}/${t} correct!</strong> ${c===t?'🎉 Perfect! All items sorted correctly.':'Review the wrong ones (red) and check the reading section.'}`;
+  bar.style.background=c===t?'var(--ok-l)':'var(--err-l)';
+  bar.style.color=c===t?'var(--ok)':'var(--err)';
+  bar.style.borderRadius='var(--r)';bar.style.padding='14px 18px';
+  if(c===t){sortDone=true;document.querySelector('[data-tab="sort"]').classList.add('done')}
+}
+function resetSort(){buildSort();document.getElementById('sortResult').style.display='none'}
+
+// FLASHCARDS
+function updateFC(){
+  const fc=fcs[fcIdx];
+  document.getElementById('fcT').textContent=fc.t;
+  document.getElementById('fcD').textContent=fc.d;
+  document.getElementById('fcCtr').textContent='Card '+(fcIdx+1)+' of '+fcs.length;
+  document.getElementById('fcPrev').disabled=fcIdx===0;
+  document.getElementById('fcNext').disabled=fcIdx===fcs.length-1;
+  document.getElementById('fcInner').classList.remove('flipped');fcFlipped=false;
+}
+function fcFlip(){fcFlipped=!fcFlipped;document.getElementById('fcInner').classList.toggle('flipped',fcFlipped)}
+function fcMove(d){
+  fcIdx=Math.max(0,Math.min(fcs.length-1,fcIdx+d));
+  if(fcIdx===fcs.length-1)document.querySelector('[data-tab="flash"]').classList.add('done');
+  updateFC();
+}
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('sec-flash').classList.contains('active'))return;
+  if(e.key==='ArrowRight')fcMove(1);
+  if(e.key==='ArrowLeft')fcMove(-1);
+  if(e.key===' '){e.preventDefault();fcFlip()}
+});
+
+// SCENARIOS
+function buildScen(){
+  const cont=document.getElementById('scenCards');
+  cont.innerHTML='';
+  let answered=0;
+  scens.forEach((s,i)=>{
+    const div=document.createElement('div');div.className='scen-card';
+    div.innerHTML=`<div class="scen-top"><div class="scen-badge">Scenario ${i+1}</div><div class="scen-q">${s.q}</div></div>
+    <div class="scen-body"><div class="scen-opts" id="so-${i}">${s.opts.map((o,j)=>`<button class="scen-opt" onclick="pickScen(${i},${j},this)">${String.fromCharCode(65+j)}. ${o}</button>`).join('')}</div>
+    <div class="scen-fb" id="sf-${i}"></div></div>`;
+    cont.appendChild(div);
+  });
+}
+function pickScen(si,oi,btn){
+  const s=scens[si];
+  if(btn.disabled||btn.closest('.scen-opts').querySelector('.correct'))return;
+  const opts=document.querySelectorAll(`#so-${si} .scen-opt`);
+  opts.forEach(o=>o.disabled=true);
+  const fb=document.getElementById('sf-'+si);
+  if(oi===s.ans){
+    btn.classList.add('correct');scenScore++;
+    fb.textContent='✓ Correct! '+s.exp;fb.className='scen-fb ok';
+  } else {
+    btn.classList.add('wrong');opts[s.ans].classList.add('correct');
+    fb.textContent='✗ Not quite. '+s.exp;fb.className='scen-fb no';
+  }
+  const answered=document.querySelectorAll('.scen-opt.correct,.scen-opt.wrong').length/2;
+  document.getElementById('scenScore').textContent=`Scenarios answered: ${Math.floor(answered)} of ${scens.length}`;
+  if(Math.floor(answered)===scens.length){scenDone=true;document.querySelector('[data-tab="scenario"]').classList.add('done')}
+}
+
+// QUIZ
+function startQ(){
+  qIdx=0;qScore=0;qAns=false;
+  document.getElementById('qintro').style.display='none';
+  document.getElementById('qarea').style.display='block';
+  renderQ();
+}
+function renderQ(){
+  const q=qData[qIdx];
+  document.getElementById('qNum').textContent='Q '+(qIdx+1)+' of '+qData.length;
+  document.getElementById('qSc').textContent='Score: '+qScore;
+  document.getElementById('qFill').style.width=(qIdx/qData.length*100)+'%';
+  document.getElementById('qQ').textContent=q.q;
+  document.getElementById('qFb').textContent='';document.getElementById('qFb').className='qfb';
+  document.getElementById('qNext').classList.remove('vis');qAns=false;
+  const opts=document.getElementById('qOpts');opts.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const b=document.createElement('button');b.className='qopt';b.textContent=String.fromCharCode(65+i)+'. '+o;
+    b.onclick=()=>pickQ(i);opts.appendChild(b);
+  });
+}
+function pickQ(sel){
+  if(qAns)return;qAns=true;
+  const q=qData[qIdx];
+  document.querySelectorAll('.qopt').forEach((b,i)=>{
+    b.disabled=true;
+    if(i===q.ans)b.classList.add('correct');
+    else if(i===sel)b.classList.add('wrong');
+  });
+  const fb=document.getElementById('qFb');
+  if(sel===q.ans){qScore++;fb.textContent='✓ Correct!';fb.className='qfb ok';}
+  else{fb.textContent='✗ Incorrect. Correct answer: '+q.opts[q.ans];fb.className='qfb no';}
+  document.getElementById('qSc').textContent='Score: '+qScore;
+  const nb=document.getElementById('qNext');
+  nb.textContent=qIdx<qData.length-1?'Next →':'See Results →';
+  nb.classList.add('vis');
+}
+function nextQ(){
+  qIdx++;
+  if(qIdx>=qData.length){qDone=true;document.querySelector('[data-tab="quiz"]').classList.add('done');tab('result',document.querySelector('[data-tab="result"]'));}
+  else renderQ();
+}
+function retake(){
+  document.getElementById('qintro').style.display='block';
+  document.getElementById('qarea').style.display='none';
+  qScore=0;qIdx=0;
+  tab('quiz',document.querySelector('[data-tab="quiz"]'));
+}
+
+// RESULTS
+function showRes(){
+  document.getElementById('rName').textContent=uName||'—';
+  document.getElementById('rDate').textContent='Date: '+new Date().toLocaleDateString('en-PH',{year:'numeric',month:'long',day:'numeric'});
+  const rc=readDone.filter(Boolean).length;
+  document.getElementById('rRsc').textContent=rc+'/5';
+  document.getElementById('rQsc').textContent=qDone?qScore+'/'+qData.length:'—';
+  document.getElementById('rSsc').textContent=scenDone?scenScore+'/'+scens.length:'—';
+  const st=(id,done,lbl)=>{const e=document.getElementById(id);e.textContent=done?lbl:'Not yet';e.className='rb-tag '+(done?'yes':'no')};
+  st('rbR',rc===5,'Complete');st('rbS',sortDone,'Complete');st('rbF',fcSeen,'Viewed');st('rbSc',scenDone,scenScore+'/'+scens.length);st('rbQ',qDone,qScore+'/'+qData.length);
+  let trophy='📋';if(qDone){const p=qScore/qData.length;trophy=p>=.9?'🏆':p>=.7?'🥇':p>=.5?'🥈':'📚';}
+  document.getElementById('rTrophy').textContent=trophy;
+  document.getElementById('res-ph').style.display=qDone?'none':'block';
+  document.getElementById('res-card').style.display=qDone?'block':'none';
+}
+</script>
+</body>
+</html>
